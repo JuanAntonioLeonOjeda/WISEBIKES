@@ -1,5 +1,9 @@
 const User = require('../models/user.model')
 
+const {
+  createStaffProfileAux
+} = require('./profile.controller')
+
 const getOneUser = async (req, res) => {
   try {
     const userId = req.params.id
@@ -30,7 +34,9 @@ const getOneUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll()
+    const users = await User.findAll({
+      where: req.query
+    })
 
     if (!users.length) {
       return res.status(404).json({
@@ -73,8 +79,45 @@ const createCustomer = async (req, res) => {
   }
 }
 
+const createStaff = async (req, res) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      email,
+      password, 
+      phone 
+    } = req.query
+    const user = await User.create({
+      firstName, 
+      lastName
+    })
+
+    await user.createProfile({
+      email,
+      password,
+      phone
+    })
+    // await createStaffProfileAux(email, password, phone, user.id)
+
+    res.status(200).json({
+      success: true,
+      message: "Staff created",
+      result: user,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Error creating Staff",
+      result: error.message,
+    });
+  }
+};
+
 module.exports = {
   getOneUser,
   getAllUsers,
-  createCustomer
+  createCustomer,
+  createStaff
 }

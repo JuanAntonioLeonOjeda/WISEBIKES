@@ -21,11 +21,12 @@ const connectToDB = async () => {
 
 const startExpress = () => {
   const app = express()
+    .use(express.json())
 
-  app.use('/api', require('./api/routes'))
-  app.listen(process.env.PORT, () => {
-    console.log("listening")
-  })
+    .use('/api', require('./api/routes'))
+    .listen(process.env.PORT, () => {
+      console.log("listening")
+    })
 }
 
 const start = async () => {
