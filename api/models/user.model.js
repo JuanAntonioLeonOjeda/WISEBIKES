@@ -14,7 +14,8 @@ const User = connection.define(
     },
     role: {
       type: DataTypes.ENUM,
-      values: ['customer', 'staff', 'admin']
+      values: ['customer', 'staff', 'admin'],
+      defaultValue: 'customer'
     }
   },
   {
