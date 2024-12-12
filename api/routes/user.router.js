@@ -3,12 +3,14 @@ const userRouter = require("express").Router()
 const {
   getOneUser,
   getAllUsers,
-  createCustomer
+  createCustomer,
+  createStaff
 } = require('../controllers/user.controller')
 
 userRouter
   .get('/', getAllUsers)
   .get('/:id', getOneUser)
-  .post("/customer", createCustomer)
+  .post('/customer', createCustomer)
+  .post('/staff', createStaff)
 
 module.exports = userRouter

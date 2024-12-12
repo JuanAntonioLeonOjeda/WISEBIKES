@@ -1,9 +1,5 @@
 const User = require('../models/user.model')
 
-const {
-  createStaffProfileAux
-} = require('./profile.controller')
-
 const getOneUser = async (req, res) => {
   try {
     const userId = req.params.id
@@ -87,7 +83,7 @@ const createStaff = async (req, res) => {
       email,
       password, 
       phone 
-    } = req.query
+    } = req.body
     const user = await User.create({
       firstName, 
       lastName
@@ -98,7 +94,6 @@ const createStaff = async (req, res) => {
       password,
       phone
     })
-    // await createStaffProfileAux(email, password, phone, user.id)
 
     res.status(200).json({
       success: true,
