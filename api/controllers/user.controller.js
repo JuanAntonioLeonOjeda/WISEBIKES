@@ -4,7 +4,14 @@ const getOneUser = async (req, res) => {
   try {
     const userId = req.params.id
 
-    const user = await User.findByPk(userId)
+    const user = await User.findByPk(userId , {
+      include: 'profile' //EAGER LOADING
+    })
+
+    // let profile
+    // if (user.role !== 'customer') {
+    //   profile = await user.getProfile() //LAZY LOADING
+    // }
 
     if (!user) {
       return res.status(404).json({
@@ -16,7 +23,7 @@ const getOneUser = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'One User found',
-      result: user
+      result: {user}
     })
   } catch (error) {
     console.error(error)
@@ -82,11 +89,14 @@ const createStaff = async (req, res) => {
       lastName,
       email,
       password, 
-      phone 
+      phone,
+      role
     } = req.body
+
     const user = await User.create({
       firstName, 
-      lastName
+      lastName,
+      role
     })
 
     await user.createProfile({
