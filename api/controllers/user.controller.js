@@ -65,21 +65,20 @@ const getAllUsers = async (req, res) => {
 
 const getOwnAccount = async (req, res) => {
   try {
-    const user = await User.findByPk(res.locals.user.id , {
-      include: 'profile'
-    })
+    // const user = await User.findByPk(res.locals.user.id , {
+    //   include: 'profile'
+    // })
 
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'Account not found'
-      })
-    }
-
+    // if (!user) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: 'Account not found'
+    //   })
+    // }
     res.status(200).json({
       success: true,
       message: 'Account found',
-      result: user
+      result: res.locals.user
     })
   } catch (error) {
     console.error(error)

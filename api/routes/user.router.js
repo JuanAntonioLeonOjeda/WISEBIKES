@@ -11,14 +11,20 @@ const {
   deleteOneUser
 } = require("../controllers/user.controller")
 
+const {
+  checkAuth,
+  checkAdmin,
+  checkStaff
+} = require('../utils/middlewares')
+
 userRouter
-  .get('/', getAllUsers)
-  .get('/me', getOwnAccount)
-  .get('/:id', getOneUser)
-  .post('/customer', createCustomer)
-  .post('/staff', createStaff)
-  .put('/me', updateOwnAccount)
-  .put('/:id', updateOneAccount)
-  .delete('/:id', deleteOneUser)
+  .get("/", getAllUsers)
+  .get("/me", checkAuth, getOwnAccount)
+  .get("/:id", checkAuth, checkStaff, getOneUser)
+  .post("/customer", checkAuth, checkStaff, createCustomer)
+  .post("/staff", checkAuth, checkAdmin, createStaff)
+  .put("/me", checkAuth, updateOwnAccount)
+  .put("/:id", checkAuth, checkStaff, updateOneAccount)
+  .delete("/:id", checkAuth, checkAdmin, deleteOneUser)
 
 module.exports = userRouter
