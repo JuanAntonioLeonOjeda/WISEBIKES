@@ -1,6 +1,7 @@
 require("dotenv").config()
 const express = require("express")
 const morgan = require("morgan")
+const cors = require('cors')
 
 const { 
   DBSync,
@@ -21,6 +22,7 @@ const connectToDB = async () => {
 
 const startExpress = () => {
   const app = express()
+    .use(cors())
     .use(express.json())
 
     .use('/api', require('./api/routes'))
